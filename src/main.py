@@ -172,17 +172,24 @@ def main():
     
     chromosomes = [Chromosome(seq) for seq in sequences]
 
+    for q in range(0, 10):    
     # Step 3: Calculate fitness and print
-    for i, chromosome in enumerate(chromosomes, start=1):
-        print(f"Chromosome {i}: Sequence {chromosome.node_sequence}, Fitness {chromosome.fitness}")
+        for i, chromosome in enumerate(chromosomes, start=1):
+            print(f"Chromosome {i}: Sequence {chromosome.node_sequence}, Fitness {chromosome.fitness}")
 
-    # Step 4: Perform crossover on two randomly selected chromosomes
-    parents = random.sample(chromosomes, 2)
-    print(f"The chosen parents are : {parents[0].node_sequence}, {parents[1].node_sequence}")
-    offspring1, offspring2 = crossover_with_validation(parents[0].node_sequence, parents[1].node_sequence, 'A', 'F')
-   
-    print(f"Offspring 1: Sequence {offspring1.node_sequence}, Fitness {offspring1.fitness}")
-    print(f"Offspring 2: Sequence {offspring2.node_sequence}, Fitness {offspring2.fitness}")
+        chromosomes_sorted_by_fitness = sorted(chromosomes, key=lambda x: x.fitness)
+        # Select the two chromosomes with the lowest fitness values
+        parent1, parent2 = chromosomes_sorted_by_fitness[:2]        
+        print(f"The chosen parents are : {parent1.node_sequence}, {parent2.node_sequence}")
+        
+        chromosomes = []
+        for w in range(0, 3):
+            offspring1, offspring2 = crossover_with_validation(parent1.node_sequence, parent2.node_sequence, 'A', 'F')    
+            print(f"Offspring 1: Sequence {offspring1.node_sequence}, Fitness {offspring1.fitness}")
+            print(f"Offspring 2: Sequence {offspring2.node_sequence}, Fitness {offspring2.fitness}\n")
+            chromosomes.append(offspring1)
+            chromosomes.append(offspring2)
+        
 
 # To run the main function, uncomment the next line in your Python environment
 # main()
