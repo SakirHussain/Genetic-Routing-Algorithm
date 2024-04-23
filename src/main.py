@@ -40,14 +40,6 @@ class Node:
         """
         self.traffic = traffic
 
-# Example usage (commented out to follow instructions)
-# node_a = Node("NodeA")
-# node_a.update_routing_table("NodeB", 2)
-# node_a.update_routing_table("NodeC", 5)
-# node_a.mark_as_compromised()
-# node_a.update_traffic(100)
-
-# print(node_a.name, node_a.routing_table, node_a.is_compromised, node_a.traffic)
 
 class Chromosome:
     def __init__(self, node_sequence):
@@ -66,11 +58,6 @@ class Chromosome:
         :return: int - The fitness value of the node sequence.
         """
         return fitness_function(self.node_sequence)
-
-# Example usage (commented out to follow instructions)
-# Assume nodes_registry is populated and fitness_function is defined as before.
-# chromosome = Chromosome("ACDEF")
-# print(chromosome.node_sequence, chromosome.fitness)
 
 
 def fitness_function(node_sequence):
@@ -144,8 +131,6 @@ def is_valid_path(path, origin, destination):
     return True
 
 
-# Assuming the rest of the setup (Chromosome class, nodes_registry) is as previously defined.
-
 def main():
     # Step 1: Create a medium complexity network
     nodes = ['A', 'B', 'C', 'D', 'E', 'F']
@@ -156,17 +141,16 @@ def main():
         ('D', 'E'): 2, ('D', 'F'): 3,
         ('E', 'F'): 5
     }
+    
     for node in nodes:
         Node(node)
+        
     for (start, end), cost in connections.items():
         nodes_registry[start].update_routing_table(end, cost)
         # For simplicity, assume all connections are bidirectional
         nodes_registry[end].update_routing_table(start, cost)
 
-    # Randomly mark one node as compromised and one with high traffic
-    # nodes_registry[random.choice(nodes)].is_compromised = True
-    # nodes_registry[random.choice(nodes)].traffic = 100
-
+    
     # Step 2: Create 5 random sequences of valid routes
     sequences = ['ABCDEDCDEF', 'ACBDEDCEDEF', 'ABCEDEDCBDF', 'ACDEDCEDCEF', 'ACBCDCEDEDF']
     
