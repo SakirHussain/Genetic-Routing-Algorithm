@@ -1,0 +1,166 @@
+Chromosome 1: Sequence ABCDEDCDEF, Fitness 26
+Chromosome 2: Sequence ACBDEDCEDEF, Fitness 30  
+Chromosome 3: Sequence ABCEDEDCBDF, Fitness 29  
+Chromosome 4: Sequence ACDEDCEDCEF, Fitness 31  
+Chromosome 5: Sequence ACBCDCEDEDF, Fitness 26  
+
+The chosen parents are : ABCDEDCDEF, ACBCDCEDEDF
+Offspring 1: Sequence ACBDEF, Fitness 17        
+Offspring 2: Sequence ACBCEDCDEF, Fitness 26   
+Offspring 1: Sequence ABCDEF, Fitness 16        
+Offspring 2: Sequence ABDEF, Fitness 16
+Offspring 1: Sequence ABCDECEDEDF, Fitness 28   
+Offspring 2: Sequence ACDEF, Fitness 13
+
+
+
+Chromosome 1: Sequence ACBDEF, Fitness 17
+Chromosome 2: Sequence ACBCEDCDEF, Fitness 26
+Chromosome 3: Sequence ABCDEF, Fitness 16
+Chromosome 4: Sequence ABDEF, Fitness 16
+Chromosome 5: Sequence ABCDECEDEDF, Fitness 28
+Chromosome 6: Sequence ACDEF, Fitness 13
+
+The chosen parents are : ACDEF, ABCDEF
+Offspring 1: Sequence ABCDEF, Fitness 16
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ABCEF, Fitness 15
+Offspring 1: Sequence ABCDEF, Fitness 16
+Offspring 2: Sequence ACDEF, Fitness 13
+
+
+
+Chromosome 1: Sequence ABCDEF, Fitness 16
+Chromosome 2: Sequence ACDEF, Fitness 13
+Chromosome 3: Sequence ACDEF, Fitness 13
+Chromosome 4: Sequence ABCEF, Fitness 15
+Chromosome 5: Sequence ABCDEF, Fitness 16
+Chromosome 6: Sequence ACDEF, Fitness 13
+
+The chosen parents are : ACDEF, ACDEF
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+
+
+
+Chromosome 1: Sequence ACDEF, Fitness 13
+Chromosome 2: Sequence ACDEF, Fitness 13
+Chromosome 3: Sequence ACDEF, Fitness 13
+Chromosome 4: Sequence ACDEF, Fitness 13
+Chromosome 5: Sequence ACDEF, Fitness 13
+Chromosome 6: Sequence ACDEF, Fitness 13
+
+The chosen parents are : ACDEF, ACDEF
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+
+
+
+Chromosome 1: Sequence ACDEF, Fitness 13
+Chromosome 2: Sequence ACDEF, Fitness 13
+Chromosome 3: Sequence ACDEF, Fitness 13
+Chromosome 4: Sequence ACDEF, Fitness 13
+Chromosome 5: Sequence ACDEF, Fitness 13
+Chromosome 6: Sequence ACDEF, Fitness 13
+
+The chosen parents are : ACDEF, ACDEF
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+
+
+
+Chromosome 1: Sequence ACDEF, Fitness 13
+Chromosome 2: Sequence ACDEF, Fitness 13
+Chromosome 3: Sequence ACDEF, Fitness 13
+Chromosome 4: Sequence ACDEF, Fitness 13
+Chromosome 5: Sequence ACDEF, Fitness 13
+Chromosome 6: Sequence ACDEF, Fitness 13
+
+The chosen parents are : ACDEF, ACDEF
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+
+
+
+Chromosome 1: Sequence ACDEF, Fitness 13
+Chromosome 2: Sequence ACDEF, Fitness 13
+Chromosome 3: Sequence ACDEF, Fitness 13
+Chromosome 4: Sequence ACDEF, Fitness 13
+Chromosome 5: Sequence ACDEF, Fitness 13
+Chromosome 6: Sequence ACDEF, Fitness 13
+
+The chosen parents are : ACDEF, ACDEF
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+
+
+
+Chromosome 1: Sequence ACDEF, Fitness 13
+Chromosome 2: Sequence ACDEF, Fitness 13
+Chromosome 3: Sequence ACDEF, Fitness 13
+Chromosome 4: Sequence ACDEF, Fitness 13
+Chromosome 5: Sequence ACDEF, Fitness 13
+Chromosome 6: Sequence ACDEF, Fitness 13
+
+The chosen parents are : ACDEF, ACDEF
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+
+
+
+Chromosome 1: Sequence ACDEF, Fitness 13
+Chromosome 2: Sequence ACDEF, Fitness 13
+Chromosome 3: Sequence ACDEF, Fitness 13
+Chromosome 4: Sequence ACDEF, Fitness 13
+Chromosome 5: Sequence ACDEF, Fitness 13
+Chromosome 6: Sequence ACDEF, Fitness 13
+
+The chosen parents are : ACDEF, ACDEF
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+
+
+
+Chromosome 1: Sequence ACDEF, Fitness 13
+Chromosome 2: Sequence ACDEF, Fitness 13
+Chromosome 3: Sequence ACDEF, Fitness 13
+Chromosome 4: Sequence ACDEF, Fitness 13
+Chromosome 5: Sequence ACDEF, Fitness 13
+Chromosome 6: Sequence ACDEF, Fitness 13
+
+The chosen parents are : ACDEF, ACDEF
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
+Offspring 1: Sequence ACDEF, Fitness 13
+Offspring 2: Sequence ACDEF, Fitness 13
