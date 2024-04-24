@@ -2,6 +2,8 @@ import random
 import copy
 
 nodes_registry = {}
+start_node = ''
+end_node = ''
 
 class Node:
     def __init__(self, name):
@@ -152,9 +154,11 @@ def main():
 
     
     # Step 2: Create 5 random sequences of valid routes
-    sequences = ['ABCDEDCDEF', 'ACBDEDCEDEF', 'ABCEDEDCBDF', 'ACDEDCEDCEF', 'ACBCDCEDEDF']
     
-    chromosomes = [Chromosome(seq) for seq in sequences]
+    
+    # sequences = ['ABCDEDCDEF', 'ACBDEDCEDEF', 'ABCEDEDCBDF', 'ACDEDCEDCEF', 'ACBCDCEDEDF']
+    
+    # chromosomes = [Chromosome(seq) for seq in sequences]
 
     for q in range(0, 10):    
     # Step 3: Calculate fitness and print

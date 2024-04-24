@@ -47,13 +47,50 @@ def add_edge():
         messagebox.showerror("Error", "Invalid weight.")
 
 # Function to draw or update the graph
-def update_graph():
-    ax.clear()
-    pos = nx.spring_layout(G)
-    nx.draw(G, pos, ax=ax, with_labels=True, node_color='skyblue', node_size=2000, edge_color='k', linewidths=1, font_size=15)
+def update_graph(highlight_path=None):
+    """
+    Draw or update the network graph with optional path highlighting.
+    
+    :param highlight_path: str - A string representing the sequence of nodes in the fittest path to highlight.
+    """
+    ax.clear()  # Clear the previous graph drawing
+    pos = nx.spring_layout(G)  # Positions for all nodes
+
+    # Default node and edge colors
+    node_color_map = []
+    edge_color_map = []
+
+    for node in G.nodes():
+        if highlight_path and node in highlight_path:
+            node_color_map.append('green')
+        else:
+            node_color_map.append('skyblue')
+
+    for u, v in G.edges():
+        if highlight_path and u in highlight_path and v in highlight_path and \
+           highlight_path.index(v) == highlight_path.index(u) + 1:
+            edge_color_map.append('green')
+        else:
+            edge_color_map.append('black')
+
+    nx.draw(G, pos, ax=ax, with_labels=True, node_color=node_color_map, node_size=2000,
+            edge_color=edge_color_map, linewidths=1, font_size=15)
     labels = nx.get_edge_attributes(G, 'weight')
     nx.draw_networkx_edge_labels(G, pos, edge_labels=labels, ax=ax)
     canvas.draw()
+    
+def genetic_mainloop():
+    # update_graph()
+    sequences = []
+    for i in range(6):
+        sequences.append(main.generate_valid_path(main.start_node, main.end_node))        
+    
+    chromosomes = [main.Chromosome(seq) for seq in sequences]
+    chromosomes_sorted_by_fitness = sorted(chromosomes, key=lambda x: x.fitness)
+    fittest_chromosome = chromosomes_sorted_by_fitness[0]
+    update_graph(highlight_path="abce")
+    
+    pass
 
 # Adding node entry
 ttk.Label(frame_controls, text="Node Name:").pack()
@@ -72,6 +109,19 @@ ttk.Label(frame_controls, text="Weight:").pack()
 weight_entry = ttk.Entry(frame_controls)
 weight_entry.pack()
 ttk.Button(frame_controls, text="Add Edge", command=add_edge).pack()
+
+# Entry for start and end nodes
+ttk.Label(frame_controls, text="Start Node:").pack()
+start_node_entry = ttk.Entry(frame_controls)
+main.start_node = start_node_entry.get()
+start_node_entry.pack()
+
+ttk.Label(frame_controls, text="End Node:").pack()
+end_node_entry = ttk.Entry(frame_controls)
+main.end_node = end_node_entry.get()
+end_node_entry.pack()
+
+ttk.Button(frame_controls, text="Start Genetic Algorithm", command=genetic_mainloop).pack()
 
 # Matplotlib figure and axis
 fig: Figure = plt.figure(figsize=(8, 6))
