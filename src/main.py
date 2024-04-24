@@ -132,23 +132,23 @@ def is_valid_path(path, origin, destination):
 
 
 def main():
-    # Step 1: Create a medium complexity network
-    nodes = ['A', 'B', 'C', 'D', 'E', 'F']
-    connections = {
-        ('A', 'B'): 4, ('A', 'C'): 3,
-        ('B', 'C'): 2, ('B', 'D'): 5,
-        ('C', 'D'): 3, ('C', 'E'): 4,
-        ('D', 'E'): 2, ('D', 'F'): 3,
-        ('E', 'F'): 5
-    }
+    # # Step 1: Create a medium complexity network
+    # nodes = ['A', 'B', 'C', 'D', 'E', 'F']
+    # connections = {
+    #     ('A', 'B'): 4, ('A', 'C'): 3,
+    #     ('B', 'C'): 2, ('B', 'D'): 5,
+    #     ('C', 'D'): 3, ('C', 'E'): 4,
+    #     ('D', 'E'): 2, ('D', 'F'): 3,
+    #     ('E', 'F'): 5
+    # }
     
-    for node in nodes:
-        Node(node)
+    # for node in nodes:
+    #     Node(node)
         
-    for (start, end), cost in connections.items():
-        nodes_registry[start].update_routing_table(end, cost)
-        # For simplicity, assume all connections are bidirectional
-        nodes_registry[end].update_routing_table(start, cost)
+    # for (start, end), cost in connections.items():
+    #     nodes_registry[start].update_routing_table(end, cost)
+    #     # For simplicity, assume all connections are bidirectional
+    #     nodes_registry[end].update_routing_table(start, cost)
 
     
     # Step 2: Create 5 random sequences of valid routes
