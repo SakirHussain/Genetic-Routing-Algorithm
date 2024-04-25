@@ -110,6 +110,13 @@ def crossover_with_validation(parent1, parent2, origin, destination):
     """
     Perform crossover between two parent strings ensuring the offspring is a valid path.
     """
+    if min(len(parent1), len(parent2)) <= 2:
+        # If either parent is too short, we simply generate new paths
+        offspring1 = generate_valid_path(origin, destination)
+        offspring2 = generate_valid_path(origin, destination)
+        return (Chromosome(offspring1),
+                Chromosome(offspring2))
+    
     # Simple crossover: mix and match halves
     crossover_point = random.randint(1, min(len(parent1), len(parent2)) - 2)
     offspring1_attempt = parent1[:crossover_point] + parent2[crossover_point:]

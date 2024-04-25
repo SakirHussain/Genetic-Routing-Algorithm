@@ -4,6 +4,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
+import random
 import main  # Import your main module
 
 # Create the main window
@@ -79,19 +80,42 @@ def update_graph(highlight_path=None):
     nx.draw_networkx_edge_labels(G, pos, edge_labels=labels, ax=ax)
     canvas.draw()
     
-def genetic_mainloop():
-    # update_graph()
-    sequences = []
-    for i in range(6):
-        sequences.append(main.generate_valid_path(main.start_node, main.end_node))        
+sequences = []
+for i in range(6):
+    sequences.append(main.generate_valid_path(main.start_node, main.end_node))
+
+chromosomes = [main.Chromosome(seq) for seq in sequences]
+
+        
+def genetic_mainloop(delay=1000):  # Delay in milliseconds
+    main.end_node = end_node_entry.get()
+    main.start_node = start_node_entry.get()
     
-    chromosomes = [main.Chromosome(seq) for seq in sequences]
+    # sequences = []
+    # for i in range(6):
+    #     sequences.append(main.generate_valid_path(main.start_node, main.end_node))
+    
+    print(f"start node : {main.start_node} end node : {main.end_node} ")
+    print(sequences)
+    
+    # chromosomes = [main.Chromosome(seq) for seq in sequences]
     chromosomes_sorted_by_fitness = sorted(chromosomes, key=lambda x: x.fitness)
     fittest_chromosome = chromosomes_sorted_by_fitness[0]
-    update_graph(highlight_path="abce")
     
-    pass
+    print(fittest_chromosome.node_sequence) # printing empty sequence
+    
+    update_graph(highlight_path=fittest_chromosome.node_sequence)
+    
+    parent1, parent2 = chromosomes_sorted_by_fitness[:2]        
+    chromosomes = []
+    for w in range(0, 3):
+        offspring1, offspring2 = main.crossover_with_validation(parent1.node_sequence, parent2.node_sequence, main.start_node, main.end_node)
+        chromosomes.append(offspring1)
+        chromosomes.append(offspring2)
 
+    # Schedule the next call to this function
+    root.after(delay, genetic_mainloop, delay)
+    
 # Adding node entry
 ttk.Label(frame_controls, text="Node Name:").pack()
 node_entry = ttk.Entry(frame_controls)
@@ -113,15 +137,13 @@ ttk.Button(frame_controls, text="Add Edge", command=add_edge).pack()
 # Entry for start and end nodes
 ttk.Label(frame_controls, text="Start Node:").pack()
 start_node_entry = ttk.Entry(frame_controls)
-main.start_node = start_node_entry.get()
 start_node_entry.pack()
 
 ttk.Label(frame_controls, text="End Node:").pack()
 end_node_entry = ttk.Entry(frame_controls)
-main.end_node = end_node_entry.get()
 end_node_entry.pack()
 
-ttk.Button(frame_controls, text="Start Genetic Algorithm", command=genetic_mainloop).pack()
+ttk.Button(frame_controls, text="Start Genetic Algorithm", command=lambda: genetic_mainloop(1000)).pack()
 
 # Matplotlib figure and axis
 fig: Figure = plt.figure(figsize=(8, 6))
