@@ -24,6 +24,8 @@ G = nx.DiGraph()
 pos = {}  # Positions for all nodes
 
 
+
+
 # Function to add nodes to the graph and update the node registry
 def add_node(node_name):
     global pos
@@ -53,12 +55,7 @@ def add_edge():
 
 # Function to draw or update the graph
 def update_graph(highlight_path=None):
-    """
-    Draw or update the network graph with optional path highlighting.
-    """
     ax.clear()  # Clear the previous graph drawing
-
-    # Default node and edge colors
     node_color_map = []
     edge_color_map = []
 
@@ -81,12 +78,74 @@ def update_graph(highlight_path=None):
     nx.draw_networkx_edge_labels(G, pos, edge_labels=labels, ax=ax)
     canvas.draw()
     
+    # Connect the click event to a handler
+    fig.canvas.mpl_connect('button_press_event', on_click)
+    
+def on_click(event):
+    # Identify if a node was clicked
+    node_clicked = None
+    for node, (x, y) in pos.items():
+        distance = ((event.xdata - x)**2 + (event.ydata - y)**2)**0.5
+        if distance < 0.1:  # Assuming the scale makes this a reasonable threshold
+            node_clicked = node
+            break
+
+    if node_clicked:
+        print(f"Node {node_clicked} was clicked.")  # Debug: to be replaced with actual functionality
+        show_node_controls(node_clicked)
+
+
+node_controls_frame = tk.Frame(frame_controls)
+node_controls_frame.pack(side=tk.BOTTOM, fill=tk.X)
+
+def show_node_controls(node_name):
+    # Clear previous widgets in node_controls_frame only
+    for widget in node_controls_frame.winfo_children():
+        widget.destroy()
+
+    # Add a label to indicate which node is being edited
+    ttk.Label(node_controls_frame, text=f"Editing Node: {node_name}").pack()
+
+    # Checkbox for compromised state
+    is_comp_var = tk.BooleanVar(value=main.nodes_registry[node_name].is_compromised)
+    compromised_check = ttk.Checkbutton(node_controls_frame, text="Is Compromised", variable=is_comp_var, command=lambda: update_node_compromised(node_name, is_comp_var))
+    compromised_check.pack()
+
+    # Entry for traffic value
+    traffic_var = tk.IntVar(value=main.nodes_registry[node_name].traffic)
+    ttk.Label(node_controls_frame, text="Traffic Level:").pack()
+    traffic_entry = ttk.Entry(node_controls_frame, textvariable=traffic_var)
+    traffic_entry.pack()
+
+    # Button to update traffic
+    update_traffic_btn = ttk.Button(node_controls_frame, text="Update Traffic", command=lambda: update_node_traffic(node_name, traffic_var.get()))
+    update_traffic_btn.pack()
+
+def update_node_compromised(node_name, is_compromised):
+    node = main.nodes_registry[node_name]
+    node.is_compromised = is_compromised.get()
+    update_graph()  # Refresh the graph
+    restart_genetic_algorithm()
+
+def update_node_traffic(node_name, traffic):
+    node = main.nodes_registry[node_name]
+    node.traffic = traffic
+    update_graph()  # Refresh the graph
+    restart_genetic_algorithm()
+
+def restart_genetic_algorithm():
+    global chromosomes  # Make sure to access the global variable
+    if genetic_algorithm_job is not None:
+        root.after_cancel(genetic_algorithm_job)
+    genetic_mainloop(setup_initial_population(), 1000)  # Restart the genetic algorithm with a standard delay
+    
 # sequences = []
 # for i in range(6):
 #     sequences.append(main.generate_valid_path(main.start_node, main.end_node))
 
 # chromosomes = [main.Chromosome(seq) for seq in sequences]
 
+chromosomes = []
 def setup_initial_population():
     main.end_node = end_node_entry.get()
     main.start_node = start_node_entry.get()
@@ -99,7 +158,10 @@ def setup_initial_population():
     chromosomes = [main.Chromosome(seq) for seq in sequences]
     return chromosomes
         
+
+genetic_algorithm_job = None  # Global reference to the scheduled job
 def genetic_mainloop(chromosomes, delay=1000):  # Delay in milliseconds
+    global genetic_algorithm_job
     main.end_node = end_node_entry.get()
     main.start_node = start_node_entry.get()
     
@@ -128,8 +190,11 @@ def genetic_mainloop(chromosomes, delay=1000):  # Delay in milliseconds
         chromosomes.append(offspring1)
         chromosomes.append(offspring2)
 
+    if genetic_algorithm_job is not None:
+        root.after_cancel(genetic_algorithm_job)
+
     # Schedule the next call to this function
-    root.after(delay, lambda: genetic_mainloop(chromosomes, delay))
+    genetic_algorithm_job = root.after(delay, lambda: genetic_mainloop(chromosomes, delay))
     
 # Adding node entry
 ttk.Label(frame_controls, text="Node Name:").pack()
