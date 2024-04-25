@@ -80,14 +80,24 @@ def update_graph(highlight_path=None):
     nx.draw_networkx_edge_labels(G, pos, edge_labels=labels, ax=ax)
     canvas.draw()
     
-sequences = []
-for i in range(6):
-    sequences.append(main.generate_valid_path(main.start_node, main.end_node))
+# sequences = []
+# for i in range(6):
+#     sequences.append(main.generate_valid_path(main.start_node, main.end_node))
 
-chromosomes = [main.Chromosome(seq) for seq in sequences]
+# chromosomes = [main.Chromosome(seq) for seq in sequences]
 
+def setup_initial_population():
+    main.end_node = end_node_entry.get()
+    main.start_node = start_node_entry.get()
+    
+    sequences = []
+    for i in range(6):
+        sequences.append(main.generate_valid_path(main.start_node, main.end_node))
+    
+    chromosomes = [main.Chromosome(seq) for seq in sequences]
+    return chromosomes
         
-def genetic_mainloop(delay=1000):  # Delay in milliseconds
+def genetic_mainloop(chromosomes, delay=1000):  # Delay in milliseconds
     main.end_node = end_node_entry.get()
     main.start_node = start_node_entry.get()
     
@@ -96,13 +106,14 @@ def genetic_mainloop(delay=1000):  # Delay in milliseconds
     #     sequences.append(main.generate_valid_path(main.start_node, main.end_node))
     
     print(f"start node : {main.start_node} end node : {main.end_node} ")
-    print(sequences)
+    # print(sequences)
     
     # chromosomes = [main.Chromosome(seq) for seq in sequences]
     chromosomes_sorted_by_fitness = sorted(chromosomes, key=lambda x: x.fitness)
     fittest_chromosome = chromosomes_sorted_by_fitness[0]
     
-    print(fittest_chromosome.node_sequence) # printing empty sequence
+    print(chromosomes_sorted_by_fitness)
+    print(fittest_chromosome.node_sequence)
     
     update_graph(highlight_path=fittest_chromosome.node_sequence)
     
@@ -114,7 +125,7 @@ def genetic_mainloop(delay=1000):  # Delay in milliseconds
         chromosomes.append(offspring2)
 
     # Schedule the next call to this function
-    root.after(delay, genetic_mainloop, delay)
+    root.after(delay, lambda: genetic_mainloop(chromosomes, delay))
     
 # Adding node entry
 ttk.Label(frame_controls, text="Node Name:").pack()
@@ -143,7 +154,7 @@ ttk.Label(frame_controls, text="End Node:").pack()
 end_node_entry = ttk.Entry(frame_controls)
 end_node_entry.pack()
 
-ttk.Button(frame_controls, text="Start Genetic Algorithm", command=lambda: genetic_mainloop(1000)).pack()
+ttk.Button(frame_controls, text="Start Genetic Algorithm", command=lambda: genetic_mainloop(setup_initial_population(), 1000)).pack()
 
 # Matplotlib figure and axis
 fig: Figure = plt.figure(figsize=(8, 6))
