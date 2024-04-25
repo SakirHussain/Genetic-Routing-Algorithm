@@ -21,12 +21,16 @@ frame_controls.pack(side=tk.RIGHT, fill=tk.Y)
 
 # NetworkX graph
 G = nx.DiGraph()
+pos = {}  # Positions for all nodes
+
 
 # Function to add nodes to the graph and update the node registry
 def add_node(node_name):
+    global pos
     if node_name and node_name not in G.nodes:
         G.add_node(node_name)
         main.Node(node_name)  # Create a Node instance
+        pos = nx.spring_layout(G)  # Recalculate layout only when new nodes are added
         update_graph()
     else:
         messagebox.showerror("Error", "Node already exists or invalid name.")
@@ -51,11 +55,8 @@ def add_edge():
 def update_graph(highlight_path=None):
     """
     Draw or update the network graph with optional path highlighting.
-    
-    :param highlight_path: str - A string representing the sequence of nodes in the fittest path to highlight.
     """
     ax.clear()  # Clear the previous graph drawing
-    pos = nx.spring_layout(G)  # Positions for all nodes
 
     # Default node and edge colors
     node_color_map = []
@@ -90,10 +91,11 @@ def setup_initial_population():
     main.end_node = end_node_entry.get()
     main.start_node = start_node_entry.get()
     
-    sequences = []
-    for i in range(6):
-        sequences.append(main.generate_valid_path(main.start_node, main.end_node))
+    # sequences = []
+    # for i in range(6):
+    #     sequences.append(main.generate_valid_path(main.start_node, main.end_node))
     
+    sequences = ['ABCDEDCDEF', 'ACBDEDCEDEF', 'ABCEDEDCBDF', 'ACDEDCEDCEF', 'ACBCDCEDEDF']
     chromosomes = [main.Chromosome(seq) for seq in sequences]
     return chromosomes
         
@@ -112,7 +114,9 @@ def genetic_mainloop(chromosomes, delay=1000):  # Delay in milliseconds
     chromosomes_sorted_by_fitness = sorted(chromosomes, key=lambda x: x.fitness)
     fittest_chromosome = chromosomes_sorted_by_fitness[0]
     
-    print(chromosomes_sorted_by_fitness)
+    for i in chromosomes_sorted_by_fitness:
+        print(f"{ {i.node_sequence}, {i.fitness} }")
+    
     print(fittest_chromosome.node_sequence)
     
     update_graph(highlight_path=fittest_chromosome.node_sequence)
