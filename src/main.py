@@ -1,5 +1,4 @@
 import random
-import copy
 
 nodes_registry = {}
 start_node = ''
@@ -8,9 +7,9 @@ end_node = ''
 class Node:
     def __init__(self, name):
         """
-        Initialize a new Node instance.
+        Initializes a Node with a given name, an empty routing table, and default traffic settings.
         
-        :param name: str - The name of the node.
+        :param name: The name of the node.
         """
         self.name = name
         self.routing_table = {}
@@ -18,82 +17,77 @@ class Node:
         self.traffic = 0
         nodes_registry[name] = self
 
-
     def update_routing_table(self, adjacent_node, cost):
         """
-        Update the routing table with the cost to an adjacent node.
+        Updates the routing table to add or modify the cost to an adjacent node.
         
-        :param adjacent_node: str - The name of the adjacent node.
-        :param cost: int - The cost to reach the adjacent node.
+        :param adjacent_node: The name of the adjacent node.
+        :param cost: The cost to reach the adjacent node.
         """
         self.routing_table[adjacent_node] = cost
 
     def mark_as_compromised(self):
         """
-        Mark the node as compromised.
+        Marks the node as compromised, affecting the traffic routing decisions.
         """
         self.is_compromised = True
 
     def update_traffic(self, traffic):
         """
-        Update the traffic through the node.
+        Updates the traffic metric for this node.
         
-        :param traffic: int - The amount of traffic.
+        :param traffic: The amount of traffic currently going through the node.
         """
         self.traffic = traffic
-
 
 class Chromosome:
     def __init__(self, node_sequence):
         """
-        Initialize a Chromosome instance with a node sequence.
+        Initializes a Chromosome with a sequence of nodes and calculates its fitness.
         
-        :param node_sequence: str - A string representing a sequence of nodes.
+        :param node_sequence: A sequence of nodes represented as a string.
         """
         self.node_sequence = node_sequence
         self.fitness = self.calculate_fitness()
 
     def calculate_fitness(self):
         """
-        Calculate and return the fitness of the node sequence.
+        Calculates and returns the fitness of the chromosome based on the node sequence.
         
-        :return: int - The fitness value of the node sequence.
+        :return: The fitness score as an integer.
         """
         return fitness_function(self.node_sequence)
 
-
 def fitness_function(node_sequence):
     """
-    Calculate the overall cost of the given node sequence.
+    Calculates the total cost of a given node sequence, taking into account routing costs, traffic, and node compromises.
     
-    :param node_sequence: str - A string representing a sequence of nodes.
-    :return: int - The overall cost of traversing the nodes in the given sequence.
+    :param node_sequence: The sequence of nodes to evaluate.
+    :return: The total cost as an integer, or None if any node in the sequence is not found.
     """
     total_cost = 0
     for i in range(len(node_sequence) - 1):
         current_node = node_sequence[i]
         next_node = node_sequence[i + 1]
-        
-        # Lookup the current Node instance
         node_instance = nodes_registry.get(current_node)
+        
         if node_instance:
             weight = 2
-            # Add the cost to the total if the next node is in the current node's routing table
             total_cost += node_instance.routing_table.get(next_node, 0) + (node_instance.traffic * weight)
-            if(node_instance.is_compromised):
+            if node_instance.is_compromised:
                 total_cost += 100000
-            
         else:
             print(f"Node {current_node} not found in registry.")
-            return None  # or some error handling
-    
+            return None
     return total_cost
-
 
 def generate_valid_path(origin, destination):
     """
-    Generate a valid path from origin to destination.
-    This is a placeholder function that should implement a pathfinding algorithm like Dijkstra or BFS.
+    Generates a random valid path from the origin node to the destination node.
+    
+    :param origin: The starting node of the path.
+    :param destination: The ending node of the path.
+    :return: A string representing the sequence of nodes in the path.
     """
     path = [origin]
     current_node = origin
@@ -108,21 +102,21 @@ def generate_valid_path(origin, destination):
 
 def crossover_with_validation(parent1, parent2, origin, destination):
     """
-    Perform crossover between two parent strings ensuring the offspring is a valid path.
+    Performs a genetic crossover between two parent chromosomes, ensuring valid paths are produced.
+    
+    :param parent1: The node sequence of the first parent.
+    :param parent2: The node sequence of the second parent.
+    :param origin: The origin node of the path.
+    :param destination: The destination node of the path.
+    :return: A tuple containing two Chromosomes representing the offspring.
     """
     if min(len(parent1), len(parent2)) <= 2:
-        # If either parent is too short, we simply generate new paths
-        offspring1 = generate_valid_path(origin, destination)
-        offspring2 = generate_valid_path(origin, destination)
-        return (Chromosome(offspring1),
-                Chromosome(offspring2))
+        return (Chromosome(generate_valid_path(origin, destination)), Chromosome(generate_valid_path(origin, destination)))
     
-    # Simple crossover: mix and match halves
     crossover_point = random.randint(1, min(len(parent1), len(parent2)) - 2)
     offspring1_attempt = parent1[:crossover_point] + parent2[crossover_point:]
     offspring2_attempt = parent2[:crossover_point] + parent1[crossover_point:]
 
-    # Validate offspring paths; if not valid, generate a new valid path
     offspring1 = offspring1_attempt if is_valid_path(offspring1_attempt, origin, destination) else generate_valid_path(origin, destination)
     offspring2 = offspring2_attempt if is_valid_path(offspring2_attempt, origin, destination) else generate_valid_path(origin, destination)
 
@@ -130,7 +124,12 @@ def crossover_with_validation(parent1, parent2, origin, destination):
 
 def is_valid_path(path, origin, destination):
     """
-    Check if a given path string is valid from origin to destination.
+    Validates whether a given path is feasible from the origin to the destination node.
+    
+    :param path: The path to validate as a string.
+    :param origin: The origin node of the path.
+    :param destination: The destination node of the path.
+    :return: True if the path is valid, False otherwise.
     """
     if path[0] != origin or path[-1] != destination:
         return False
@@ -139,55 +138,9 @@ def is_valid_path(path, origin, destination):
             return False
     return True
 
-
 def main():
-    # # Step 1: Create a medium complexity network
-    # nodes = ['A', 'B', 'C', 'D', 'E', 'F']
-    # connections = {
-    #     ('A', 'B'): 4, ('A', 'C'): 3,
-    #     ('B', 'C'): 2, ('B', 'D'): 5,
-    #     ('C', 'D'): 3, ('C', 'E'): 4,
-    #     ('D', 'E'): 2, ('D', 'F'): 3,
-    #     ('E', 'F'): 5
-    # }
-    
-    # for node in nodes:
-    #     Node(node)
-        
-    # for (start, end), cost in connections.items():
-    #     nodes_registry[start].update_routing_table(end, cost)
-    #     # For simplicity, assume all connections are bidirectional
-    #     nodes_registry[end].update_routing_table(start, cost)
-
-    
-    # Step 2: Create 5 random sequences of valid routes
-    
-    
-    # sequences = ['ABCDEDCDEF', 'ACBDEDCEDEF', 'ABCEDEDCBDF', 'ACDEDCEDCEF', 'ACBCDCEDEDF']
-    
-    # chromosomes = [Chromosome(seq) for seq in sequences]
-
-    for q in range(0, 10):    
-    # Step 3: Calculate fitness and print
-        for i, chromosome in enumerate(chromosomes, start=1):
-            print(f"Chromosome {i}: Sequence {chromosome.node_sequence}, Fitness {chromosome.fitness}")
-
-        chromosomes_sorted_by_fitness = sorted(chromosomes, key=lambda x: x.fitness)
-        # Select the two chromosomes with the lowest fitness values
-        parent1, parent2 = chromosomes_sorted_by_fitness[:2]        
-        print(f"The chosen parents are : {parent1.node_sequence}, {parent2.node_sequence}")
-        
-        chromosomes = []
-        for w in range(0, 3):
-            offspring1, offspring2 = crossover_with_validation(parent1.node_sequence, parent2.node_sequence, 'A', 'F')    
-            print(f"Offspring 1: Sequence {offspring1.node_sequence}, Fitness {offspring1.fitness}")
-            print(f"Offspring 2: Sequence {offspring2.node_sequence}, Fitness {offspring2.fitness}\n")
-            chromosomes.append(offspring1)
-            chromosomes.append(offspring2)
-        
-
-# To run the main function, uncomment the next line in your Python environment
-# main()
+    # Main function logic here
+    pass
 
 if __name__ == "__main__":
     main()
